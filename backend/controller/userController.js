@@ -9,16 +9,7 @@ export const registerUser = handleAsyncError(async(req,res, next)=>{
  
     const {name,email,password}= req.body;
 
-    const user = await User.create({
-        name,
-        email,
-        password,
-        avatar:{
-            public_id:"This is Temp id",
-            url:"This is Temp id"
-        }
-
-    })
+    const user = await User.create({ name, email, password });
 
     sendToken(user,200,res);
 

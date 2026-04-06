@@ -14,37 +14,31 @@ export const createProducts = handleAsyncError(async(req,res,next)=>{
     })
 })
 
-export const getAllProducts = handleAsyncError(async(req,res,next)=>{
-   //   console.log(req.query);
-   const resultperPage = 3;
-const featurequery =  
-new APIFunctionality(Product.find() , req.query)
-.search()
-.filter();
+export const getAllProducts = handleAsyncError(async (req, res, next) => {
+  const resultperPage = Number(req.query.limit) || 8;
+  const featurequery = new APIFunctionality(Product.find(), req.query)
+    .search()
+    .filter();
 
-  // get filterred query 
-   
-   const filterquery = featurequery.query.clone();
-   const productcount = await filterquery.countDocuments();
-   const totalpages = Math.ceil(productcount/resultperPage);
-   const page = Number(req.query.page) || 1;
-   
-if(page>totalpages && productcount>0){
-     return next(new HandleError("This Page Not Exist", 404));
-}
-featurequery.pagination(resultperPage);
-const product = await featurequery.query;
-if(!product || product.length===0){
-    return next(new HandleError("Product Not Found", 401));
-}
-    res.status(200).json({
-        success:true,
-        product,
-        totalpages,
-        productcount,
-        resultperPage,
-        currentPage:page
-    });
+  const filterquery = featurequery.query.clone();
+  const productcount = await filterquery.countDocuments();
+  const totalpages = Math.ceil(productcount / resultperPage) || 1;
+  const page = Number(req.query.page) || 1;
+
+  if (page > totalpages && productcount > 0) {
+    return next(new HandleError('This page does not exist', 404));
+  }
+  featurequery.pagination(resultperPage);
+  const product = await featurequery.query;
+  // Return empty array when no products (valid for new store); only 404 for invalid page
+  res.status(200).json({
+    success: true,
+    product: product || [],
+    totalpages,
+    productcount,
+    resultperPage,
+    currentPage: page,
+  });
 
 })
 

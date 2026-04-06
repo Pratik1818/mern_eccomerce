@@ -3,7 +3,7 @@ import {createProducts, deleteProduct, getAdminProduct, getAllProducts, getSingl
 import { roleBasedAccess, verifyUserAuth } from '../middleware/userAuth.js';
 const router = express.Router();
 
-//Routes
+//Routes      
 
 router.route('/products').get(getAllProducts);
 

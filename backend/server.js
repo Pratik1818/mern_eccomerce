@@ -1,7 +1,13 @@
-import app from './app.js'
-import dotenv from 'dotenv'
+import app from './app.js';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { ConnectMongoDatabase } from './config/db.js';
-dotenv.config({path:'backend/config/config.env'});
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// Load env from backend/config/config.env or root .env
+dotenv.config({ path: path.join(__dirname, 'config', 'config.env') });
+dotenv.config({ path: path.join(process.cwd(), '.env') });
 ConnectMongoDatabase();
 //handle uncaught exception error
 
@@ -13,7 +19,7 @@ process.on('uncaughtException',(err)=>{
    
 })
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 8005;
 
 const server = app.listen(port, (req,res)=>{
     console.log(`server is running on port ${port}`);

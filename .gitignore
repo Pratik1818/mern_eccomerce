@@ -1,2 +1,6 @@
 node_modules/
 backend/config/config.env
+.env
+.env.local
+frontend/.env
+frontend/.env.local

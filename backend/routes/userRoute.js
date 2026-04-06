@@ -8,10 +8,10 @@ router.route('/login').post(userLogin);
 router.route('/logout').post(userLogout);
 router.route('/forgot/password').post(requestPasswordReset);
 router.route('/reset/:token').post(resetPassword);
-router.route('/profile').post(verifyUserAuth,getUserDetails);
+router.route('/profile').get(verifyUserAuth, getUserDetails);
 router.route('/password/update').post(verifyUserAuth,updatePassword);
 router.route('/profile/update').post(verifyUserAuth,updateProfile);
-router.route('/admin/users').post(verifyUserAuth,roleBasedAccess("admin") , getUserList);
+router.route('/admin/users').get(verifyUserAuth, roleBasedAccess('admin'), getUserList);
 
 
 
